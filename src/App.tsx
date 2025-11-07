@@ -1,34 +1,61 @@
 import "./styles.css";
-// @ts-ignore
-import Home from "./Home";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+// @ts-ignore ✅ bỏ qua kiểm tra kiểu Supabase
+import { supabase } from "./supabaseClient";
+
 // @ts-ignore
 import Layout from "./Layout";
 // @ts-ignore
 import Trang1 from "./Trang1";
 // @ts-ignore
 import Chitietsanpham from "./Chitietsanpham";
-
 // @ts-ignore
 import ProductDetail from "./ProductDetail";
-
-// @ts-ignore
-import ListProducts from "./ListProducts";
-
 // @ts-ignore
 import ListProducts_SP from "./ListProducts_SP";
-
 // @ts-ignore
 import Trang2 from "./Trang2";
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// @ts-ignore ✅ bỏ qua lỗi Login
+import Login from "./pages/Login";
 
 export default function App() {
-  // return <Layout />;
+  const [user, setUser] = useState<any>(null); // 👈 dùng any cho dễ
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+      setLoading(false);
+    };
+    getUser();
+
+    // 👇 thêm kiểu any cho event & session
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event: any, session: any) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
+
+  if (loading) return <p>Đang tải...</p>;
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/"
+          element={user ? <Layout /> : <Navigate to="/login" replace />}
+        >
           <Route index element={<ListProducts_SP />} />
           <Route path="trang1" element={<Trang1 />} />
           <Route path="sanpham/:id" element={<Chitietsanpham />} />

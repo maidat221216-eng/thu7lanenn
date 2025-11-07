@@ -1,17 +1,25 @@
 import "./assets/css/main.css";
-import anhlogo from "./assets/images//Ten-truong-do-1000x159.png";
-import { Outlet } from "react-router-dom";
+import anhlogo from "./assets/images/Ten-truong-do-1000x159.png";
+import { Outlet, useNavigate } from "react-router-dom";
+import { supabase } from "./supabaseClient";
 
 const Layout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/login"); // 👈 quay lại trang login
+  };
+
   return (
-    <html>
+    <div>
       <header>
-        <div id="divheader" class="header1">
-          <div id="banner" class="banner1">
+        <div id="divheader" className="header1">
+          <div id="banner" className="banner1">
             <div id="topleft">
-              <ul class="ul1">
+              <ul className="ul1">
                 <li>
-                  <a href="/#">TRANG CHỦ</a>
+                  <a href="/">TRANG CHỦ</a>
                 </li>
                 <li>
                   <a href="/trang1">EGOV</a>
@@ -21,25 +29,40 @@ const Layout = () => {
                 </li>
               </ul>
             </div>
-            <div id="logo" class="logo1">
-              <img src={anhlogo} width="548" />
+            <div id="logo" className="logo1">
+              <img src={anhlogo} width="548" alt="Logo" />
             </div>
             <div id="divtimkiem" style={{ width: "300px" }}>
               Phần tìm kiếm
             </div>
-          </div>
-          <div id="divmenu" class="menu">
-            333
+
+            {/* 👇 Nút đăng xuất */}
+            <button
+              onClick={handleLogout}
+              style={{
+                position: "absolute",
+                right: "20px",
+                top: "20px",
+                background: "#e74c3c",
+                color: "#fff",
+                border: "none",
+                padding: "8px 12px",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Đăng xuất
+            </button>
           </div>
         </div>
       </header>
-      <body>
-        <div id="container" class="container">
-          <Outlet />
-        </div>
-      </body>
-      <footer></footer>
-    </html>
+
+      <main id="container" className="container">
+        <Outlet />
+      </main>
+
+      <footer className="footer1">© 2025 - HCE</footer>
+    </div>
   );
 };
 
