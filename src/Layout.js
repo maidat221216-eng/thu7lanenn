@@ -1,5 +1,4 @@
 import "./assets/css/main.css";
-import anhlogo from "./assets/images/Ten-truong-do-1000x159.png";
 import { Outlet, useNavigate } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 
@@ -29,9 +28,16 @@ const Layout = () => {
                 </li>
               </ul>
             </div>
+
+            {/* ✅ Logo từ link online */}
             <div id="logo" className="logo1">
-              <img src={anhlogo} width="548" alt="Logo" />
+              <img
+                src="https://upload.vmnghia.id.vn/uploads/files-1762486097502-243307491.png"
+                width="548"
+                alt="Logo"
+              />
             </div>
+
             <div id="divtimkiem" style={{ width: "300px" }}>
               Phần tìm kiếm
             </div>

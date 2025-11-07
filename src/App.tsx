@@ -1,28 +1,22 @@
 import "./styles.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-// @ts-ignore ✅ bỏ qua kiểm tra kiểu Supabase
 import { supabase } from "./supabaseClient";
 
-// @ts-ignore
 import Layout from "./Layout";
-// @ts-ignore
 import Trang1 from "./Trang1";
-// @ts-ignore
 import Chitietsanpham from "./Chitietsanpham";
-// @ts-ignore
 import ProductDetail from "./ProductDetail";
-// @ts-ignore
 import ListProducts_SP from "./ListProducts_SP";
-// @ts-ignore
 import Trang2 from "./Trang2";
-// @ts-ignore ✅ bỏ qua lỗi Login
 import Login from "./pages/Login";
+import Register from "./pages/Register"; // ✅ Thêm dòng này
 
 export default function App() {
-  const [user, setUser] = useState<any>(null); // 👈 dùng any cho dễ
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // 🔹 Kiểm tra trạng thái đăng nhập
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
@@ -31,7 +25,7 @@ export default function App() {
     };
     getUser();
 
-    // 👇 thêm kiểu any cho event & session
+    // Lắng nghe sự thay đổi trạng thái đăng nhập
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event: any, session: any) => {
         setUser(session?.user ?? null);
@@ -48,10 +42,19 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* 🧩 Route Đăng nhập */}
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" replace />}
         />
+
+        {/* 🧩 Route Đăng ký */}
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/" replace />}
+        />
+
+        {/* 🧩 Route chính - cần đăng nhập */}
         <Route
           path="/"
           element={user ? <Layout /> : <Navigate to="/login" replace />}
@@ -62,6 +65,9 @@ export default function App() {
           <Route path="detail/:id" element={<ProductDetail />} />
           <Route path="trang2" element={<Trang2 />} />
         </Route>
+
+        {/* 🧩 Mặc định điều hướng */}
+        <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
       </Routes>
     </BrowserRouter>
   );
