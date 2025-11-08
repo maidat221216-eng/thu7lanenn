@@ -65,7 +65,7 @@ const Login = () => {
         src="https://upload.vmnghia.id.vn/uploads/files-1762486097502-243307491.png"
         alt="Logo"
         style={{
-          width: "160px",
+          width: "260px",
           position: "absolute",
           top: "40px",
           left: "50%",

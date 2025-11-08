@@ -7,14 +7,28 @@ const Layout = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/login"); // 👈 quay lại trang login
+    navigate("/login");
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage:
+          'url("https://upload.vmnghia.id.vn/uploads/files-1762585365893-354464584.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed", // ✅ giữ background cố định
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* Header */}
       <header>
         <div id="divheader" className="header1">
-          <div id="banner" className="banner1">
+          <div id="banner" className="banner1" style={{ position: "relative" }}>
+            {/* Menu */}
             <div id="topleft">
               <ul className="ul1">
                 <li>
@@ -29,7 +43,7 @@ const Layout = () => {
               </ul>
             </div>
 
-            {/* ✅ Logo từ link online */}
+            {/* Logo */}
             <div id="logo" className="logo1">
               <img
                 src="https://upload.vmnghia.id.vn/uploads/files-1762486097502-243307491.png"
@@ -38,11 +52,12 @@ const Layout = () => {
               />
             </div>
 
+            {/* Search */}
             <div id="divtimkiem" style={{ width: "300px" }}>
               Phần tìm kiếm
             </div>
 
-            {/* 👇 Nút đăng xuất */}
+            {/* Logout Button */}
             <button
               onClick={handleLogout}
               style={{
@@ -63,11 +78,30 @@ const Layout = () => {
         </div>
       </header>
 
-      <main id="container" className="container">
+      {/* Main Content - Scrollable */}
+      <main
+        id="container"
+        className="container"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
+          borderRadius: "10px",
+          margin: "20px",
+          padding: "20px",
+          flexGrow: 1,
+          overflowY: "auto", // ✅ cho phép scroll
+          maxHeight: "calc(100vh - 150px)", // giới hạn chiều cao
+        }}
+      >
         <Outlet />
       </main>
 
-      <footer className="footer1">© 2025 - HCE</footer>
+      {/* Footer */}
+      <footer
+        className="footer1"
+        style={{ textAlign: "center", padding: "10px" }}
+      >
+        © 2025 - HCE
+      </footer>
     </div>
   );
 };
