@@ -3,34 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
 const Login = () => {
-  const [isSignup, setIsSignup] = useState(false); // 🔁 chuyển giữa login và signup
+  const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Hàm xử lý đăng nhập / đăng ký
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
       if (isSignup) {
-        // 🟢 ĐĂNG KÝ
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-
+        const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) setError(error.message);
         else alert("Đăng ký thành công 🎉! Vui lòng kiểm tra email xác nhận.");
       } else {
-        // 🔵 ĐĂNG NHẬP
         const { data, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
-
         if (error) setError(error.message);
         else {
           alert("Đăng nhập thành công ✅");
@@ -46,39 +38,44 @@ const Login = () => {
   return (
     <div
       style={{
-        height: "100vh",
+        minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "url('https://upload.vmnghia.id.vn/uploads/files-1762152897379-303310067.png')",
+          'url("https://upload.vmnghia.id.vn/uploads/files-1762585365893-354464584.jpg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
-        position: "relative",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed", // giống layout
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        paddingTop: "100px",
+        padding: "20px",
       }}
     >
-      {/* LOGO */}
-      <img
-        src="https://upload.vmnghia.id.vn/uploads/files-1762486097502-243307491.png"
-        alt="Logo"
+      {/* Logo trên cùng */}
+      <div
         style={{
-          width: "260px",
           position: "absolute",
-          top: "40px",
+          top: "20px",
           left: "50%",
           transform: "translateX(-50%)",
         }}
-      />
+      >
+        <img
+          src="https://upload.vmnghia.id.vn/uploads/files-1762486097502-243307491.png"
+          alt="Logo"
+          width="348"
+        />
+      </div>
 
+      {/* Form đăng nhập/đăng ký */}
       <div
         className="login-container"
         style={{
           maxWidth: 400,
           width: "100%",
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
+          backgroundColor: "rgba(255, 255, 255, 0.85)", // giống main content layout
           padding: "30px",
           borderRadius: "15px",
           boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
