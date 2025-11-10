@@ -94,13 +94,13 @@ const Layout = () => {
               style={{
                 position: "absolute",
                 top: "20px",
-                left: "50%",
+                left: "55%",
                 transform: "translateX(-50%)",
               }}
             >
               <img
                 src="https://upload.vmnghia.id.vn/uploads/files-1762486097502-243307491.png"
-                width="348"
+                width="320"
                 alt="Logo"
               />
             </div>
@@ -140,7 +140,7 @@ const Layout = () => {
         className="footer1"
         style={{ textAlign: "center", padding: "10px" }}
       >
-        © 2025 - HCE
+        © 2025 - darkmyy_
       </footer>
     </div>
   );

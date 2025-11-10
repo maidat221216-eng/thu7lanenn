@@ -9,6 +9,7 @@ import Chitietsanpham from "./Chitietsanpham";
 import ProductDetail from "./ProductDetail";
 import ListProducts_SP from "./ListProducts_SP";
 import Trang2 from "./Trang2";
+import Trang from "./Trang3";
 import Login from "./pages/Login";
 import Register from "./pages/Register"; // ✅ Thêm dòng này
 
